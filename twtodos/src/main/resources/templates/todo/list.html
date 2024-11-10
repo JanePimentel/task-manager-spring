@@ -1,0 +1,53 @@
+<!doctype html>
+<html th:replace="~{base :: layout(~{::title}, ~{::main})}">
+
+<head>
+  <title>Lista de Tarefas</title>
+</head>
+
+<body>
+  <main>
+    <div class="card">
+      <h1>Lista de Tarefas</h1>
+      <!-- Tabela de Tarefas -->
+      <table th:unless="${#lists.isEmpty(todos)}" class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Criado em</th>
+            <th scope="col">Data Entrega</th>
+            <th scope="col">Finalizado em</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="todo : ${todos}">
+            <th scope="row" th:text="${todo.id}">1</th>
+            <td th:text="${todo.title}">Exemplo Tarefa</td>
+            <td th:text="${#temporals.format(todo.createdAt)}">2024-11-09</td>
+            <td th:text="${#temporals.format(todo.deadLine)}">2024-11-20</td>
+            <td th:text="${#temporals.format(todo.finishedAt)}?:'-'">-</td>
+            <td>
+              <form class="d-inline" th:action="@{/finish/{id}(id=${todo.id})}" method="post">
+                <button type="submit" class="btn btn-sm btn-primary"
+                  th:classappend="${todo.finishedAt}?'disabled':''">Concluir</button>
+              </form>
+              <a th:classappend="${todo.finishedAt}?'disabled':''" th:href="@{/edit/{id}(id=${todo.id})}"
+                class="btn btn-sm btn-secondary">Editar</a>
+              <a th:href="@{/delete/{id}(id=${todo.id})}" class="btn btn-sm btn-danger">Excluir</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Mensagem se não houver tarefas -->
+      <p th:if="${#lists.isEmpty(todos)}" class="no-tasks-message">Nenhuma Tarefa Cadastrada!</p>
+
+      <!-- Botão para nova tarefa -->
+      <a th:href="@{/create}" class="btn btn-primary">Nova Tarefa</a>
+    </div>
+  </main>
+</body>
+
+</html>

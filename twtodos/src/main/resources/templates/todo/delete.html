@@ -1,0 +1,27 @@
+<!doctype html>
+<html th:replace="~{base :: layout(~{::title}, ~{::main})}">
+
+<head>
+    <title>Confirmar Exclusão</title>
+</head>
+
+<body>
+    <main>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="text-danger mb-4">Confirmar Exclusão</h1>
+                <p>Tem certeza de que deseja excluir este registro? Esta ação não pode ser desfeita.
+                    <br></br>
+                    <strong th:text="${todo.title}"></strong>
+                </p>
+                <form method="POST" th:object="${todo}">
+                    <input type="hidden" th:field="*{id}" />
+                    <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+                    <a th:href="@{/tw}" class="btn btn-secondary ms-2">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

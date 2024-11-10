@@ -1,0 +1,40 @@
+<!doctype html>
+<html th:replace="~{base :: layout(~{::title}, ~{::main})}">
+
+<head>
+    <title>
+        <th:block th:unless="${todo.id}">Nova</th:block> 
+        <th:block th:if="${todo.id}">Editar</th:block>
+        Tarefa
+    </title>
+</head>
+
+<body>
+    <main>
+        <h1>
+           <span th:unless = "${todo.id}">Nova</span>  
+           <span th:if = "${todo.id}">Editar</span>
+            Tarefa
+        </h1>
+        <form method = "POST" th:object="${todo}" th:action="@{/create}">
+            <input type="hidden" th:field="*{id}">
+            <div class="mb-3">
+                <label for="title" class="form-label">Titulo</label>
+                <input type="text" class="form-control" id="title" th:field="*{title}" required>
+                <!-- Exibir erros-pegar os erros que existem em title, iterar sobre eles e pra cada iteracao uma linha será exibida -->
+                <ul>
+                    <li th:each="error: ${#fields.errors('title')}" th:text="${error}" class="text-danger"></li>
+                </ul>
+            </div>
+            <div class="mb-3">
+                <label for="deadline" class="form-label">Data de entrega</label>
+                <input type="date" class="form-control" id="deadline" th:field="*{deadLine}" required>
+                <ul>
+                    <li th:each="error: ${#fields.errors('deadLine')}" th:text="${error}" class="text-danger"></li>
+                </ul>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </main>
+</body>
+</html>
